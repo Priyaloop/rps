@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock-Paper-Scissors Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Rock-Paper-Scissors Game</h1>
+    <p class="instructions">Choose Rock, Paper, or Scissors to play against the computer!</p>
+  </header>
+
+  <main>
+    <div id="scoreboard">
+      <p>Player Score: <span id="player-score">0</span></p>
+      <p>Computer Score: <span id="computer-score">0</span></p>
+    </div>
+
+    <div class="choices">
+      <button id="Rock">✊ Rock</button>
+      <button id="Paper">✋ Paper</button>
+      <button id="Scissors">✌ Scissors</button>
+    </div>
+
+    <div id="result">
+      <h2>Make your move to see the results!</h2>
+    </div>
+
+    <button id="reset">Reset Game</button>
+  </main>
+
+  <footer>
+    <p>Powered by Priyanka Roy</p>
+  </footer>
+  <script>
+    // Possible choices
+    const choices = ["rock", "paper", "scissors"];
+
+    // Initialize scores
+    let playerScore = 0;
+    let computerScore = 0;
+
+    // Function to get the computer's random choice
+    const getComputerChoice = () => {
+      const randomIndex = Math.floor(Math.random() * choices.length);
+      return choices[randomIndex];
+    };
+
+    // Function to determine the winner
+    const getWinner = (player, computer) => {
+      if (player === computer) {
+        return "It's a tie!";
+      } else if (
+        (player === "rock" && computer === "scissors") ||
+        (player === "scissors" && computer === "paper") ||
+        (player === "paper" && computer === "rock")
+      ) {
+        return "You win!";
+      } else {
+        return "Computer wins!";
+      }
+    };
+
+    // Function to update scores
+    const updateScores = (result) => {
+      if (result === "You win!") {
+        playerScore++;
+        document.getElementById("player-score").textContent = playerScore;
+      } else if (result === "Computer wins!") {
+        computerScore++;
+        document.getElementById("computer-score").textContent = computerScore;
+      }
+    };
+
+    // Main game logic
+    const playGame = (playerChoice) => {
+      const computerChoice = getComputerChoice(); // Get the computer's choice
+      const result = getWinner(playerChoice, computerChoice); // Determine the winner
+
+      // Update the result display
+      document.getElementById("result").innerHTML = `
+        <h2>Player chooses: <strong>${playerChoice}</strong><br>
+        Computer chooses: <strong>${computerChoice}</strong><br>
+        <strong>${result}</strong></h2>
+      `;
+
+      // Update the scores
+      updateScores(result);
+    };
+
+    // Event listeners for buttons
+    document.getElementById("Rock").addEventListener("click", () => playGame("rock"));
+    document.getElementById("Paper").addEventListener("click", () => playGame("paper"));
+    document.getElementById("Scissors").addEventListener("click", () => playGame("scissors"));
+
+    // Reset button functionality
+    document.getElementById("reset").addEventListener("click", () => {
+      playerScore = 0;
+      computerScore = 0;
+      document.getElementById("player-score").textContent = playerScore;
+      document.getElementById("computer-score").textContent = computerScore;
+      document.getElementById("result").innerHTML = "<h2>Make your move to see the results!</h2>";
+    });
+  </script>
+</body>
+</html>
